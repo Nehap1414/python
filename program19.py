@@ -1,66 +1,14 @@
-def read_employees():
-    file = open("employees.txt", "r")
+# Store 15 integers in a tuple and count even and odd numbers.
+numbers = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15)
 
-    employees = []
+even = 0
+odd = 0
 
-    for line in file:
-        emp_id, name, department, salary = line.strip().split(",")
+for num in numbers:
+    if num % 2 == 0:
+        even += 1
+    else:
+        odd += 1
 
-        employees.append({
-            "id": emp_id,
-            "name": name,
-            "department": department,
-            "salary": float(salary)
-        })
-
-    file.close()
-
-    return employees
-
-
-def display_employees():
-    employees = read_employees()
-
-    for emp in employees:
-        print(emp)
-
-
-def highest_paid():
-    employees = read_employees()
-
-    highest = employees[0]
-
-    for emp in employees:
-        if emp["salary"] > highest["salary"]:
-            highest = emp
-
-    print("Highest Paid Employee:")
-    print(highest)
-
-
-def average_salary():
-    employees = read_employees()
-
-    total = 0
-
-    for emp in employees:
-        total += emp["salary"]
-
-    print("Average Salary:", total / len(employees))
-
-
-def above_salary(amount):
-    employees = read_employees()
-
-    for emp in employees:
-        if emp["salary"] > amount:
-            print(emp)
-
-
-display_employees()
-
-highest_paid()
-
-average_salary()
-
-above_salary(50000)
+print("Even numbers:", even)
+print("Odd numbers:", odd)

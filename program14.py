@@ -1,18 +1,8 @@
-file = open("student.txt", "r")
+# Create a tuple and delete it completely.
+numbers = (10, 20, 30, 40)
 
-content = file.read()
+print("Tuple:", numbers)
 
-old_word = input("Enter word to replace: ")
-new_word = input("Enter new word: ")
+del numbers
 
-content = content.replace(old_word, new_word)
-
-file.close()
-
-file = open("student.txt", "w")
-
-file.write(content)
-
-file.close()
-
-print("Word replaced successfully.")
+print("Tuple deleted successfully")

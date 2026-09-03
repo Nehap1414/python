@@ -1,23 +1,10 @@
-word = input("Enter word to search: ")
+# Modify a tuple by converting it into a list and then back into a tuple.
+numbers = (10, 20, 30, 40)
 
-file = open("student.txt", "r")
+my_list = list(numbers)
 
-count = 0
-line_number = 0
-lines_found = []
+my_list[1] = 25
 
-for line in file:
-    line_number += 1
+numbers = tuple(my_list)
 
-    words = line.split()
-
-    for w in words:
-        if w == word:
-            count += 1
-            if line_number not in lines_found:
-                lines_found.append(line_number)
-
-print("Occurrences:", count)
-print("Line numbers:", lines_found)
-
-file.close()
+print("Modified tuple:", numbers)

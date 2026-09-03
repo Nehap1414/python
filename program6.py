@@ -1,9 +1,6 @@
-file = open("student.txt", "r")
+# Create a tuple with repeated numbers and count how many times a particular number appears.
+numbers = (10, 20, 10, 30, 10, 40, 20)
 
-content = file.read()
+num = int(input("Enter number: "))
 
-words = content.split()
-
-print("Total words:", len(words))
-
-file.close()
+print("Number of times", num, "appears:", numbers.count(num))

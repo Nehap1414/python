@@ -1,13 +1,6 @@
-file = open("student.txt", "r")
+# Store ten numbers in a tuple and calculate their sum.
+numbers = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
-content = file.read()
+total = sum(numbers)
 
-file.close()
-
-output = open("uppercase.txt", "w")
-
-output.write(content.upper())
-
-output.close()
-
-print("Uppercase file created.")
+print("Sum:", total)

@@ -1,17 +1,11 @@
-file = open("student.txt", "r")
+# Accept five numbers from the user, store them in a list, and convert the list into a tuple.
+numbers = []
 
-content = file.read()
+for i in range(5):
+    num = int(input("Enter number: "))
+    numbers.append(num)
 
-words = content.split()
+my_tuple = tuple(numbers)
 
-word_count = {}
-
-for word in words:
-    if word in word_count:
-        word_count[word] += 1
-    else:
-        word_count[word] = 1
-
-print(word_count)
-
-file.close()
+print("List:", numbers)
+print("Tuple:", my_tuple)

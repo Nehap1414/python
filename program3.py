@@ -1,8 +1,5 @@
-file = open("student.txt", "a")
+# Create a tuple of student names and display total number of students using len().
+students = ("Pallavi", "Rahul", "Sneha", "Amit", "Priya")
 
-file.write("CGPA: 8.5\n")
-file.write("College: ABC College\n")
-
-file.close()
-
-print("Information appended successfully.")
+print("Students:", students)
+print("Total students:", len(students))

@@ -1,6 +1,9 @@
-file = open("student.txt", "r")
+# Create a tuple of colors. Check whether a given color exists in the tuple.
+colors = ("Red", "Blue", "Green", "Yellow", "Black")
 
-for line in file:
-    print(line, end="")
+color = input("Enter a color: ")
 
-file.close()
+if color in colors:
+    print("Color exists in the tuple")
+else:
+    print("Color does not exist in the tuple")

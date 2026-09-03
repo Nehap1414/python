@@ -1,25 +1,9 @@
-file = open("student.txt", "r")
+# Create a tuple of 10 numbers and display first five, last five, middle four, alternate and reverse tuple.numbers = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
-content = file.read()
+numbers = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 
-alphabets = 0
-digits = 0
-spaces = 0
-special = 0
-
-for ch in content:
-    if ch.isalpha():
-        alphabets += 1
-    elif ch.isdigit():
-        digits += 1
-    elif ch == " ":
-        spaces += 1
-    else:
-        special += 1
-
-print("Alphabets:", alphabets)
-print("Digits:", digits)
-print("Spaces:", spaces)
-print("Special characters:", special)
-
-file.close()
+print("First five elements:", numbers[:5])
+print("Last five elements:", numbers[5:])
+print("Middle four elements:", numbers[3:7])
+print("Alternate elements:", numbers[::2])
+print("Reverse tuple:", numbers[::-1])

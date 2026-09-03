@@ -1,55 +1,15 @@
-file = open("students.txt", "r")
+# Find the largest and smallest number in a tuple without using max() and min().
+numbers = (45, 12, 78, 34, 90, 23)
 
-records = file.readlines()
+largest = numbers[0]
+smallest = numbers[0]
 
-file.close()
+for num in numbers:
+    if num > largest:
+        largest = num
 
-students = []
+    if num < smallest:
+        smallest = num
 
-for line in records[1:]:
-    roll, name, marks = line.strip().split(",")
-
-    student = {
-        "roll": roll,
-        "name": name,
-        "marks": float(marks)
-    }
-
-    students.append(student)
-
-
-# Display all records
-print("All Students:")
-
-for student in students:
-    print(student)
-
-
-# Highest marks
-highest = students[0]
-
-for student in students:
-    if student["marks"] > highest["marks"]:
-        highest = student
-
-print("\nHighest Marks:")
-print(highest)
-
-
-# Average marks
-total = 0
-
-for student in students:
-    total += student["marks"]
-
-average = total / len(students)
-
-print("\nAverage Marks:", average)
-
-
-# Students scoring more than 80
-print("\nStudents scoring more than 80:")
-
-for student in students:
-    if student["marks"] > 80:
-        print(student["name"])
+print("Largest number:", largest)
+print("Smallest number:", smallest)

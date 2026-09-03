@@ -1,30 +1,20 @@
-file1 = open("file1.txt", "r")
-file2 = open("file2.txt", "r")
+# Store item prices in a tuple and calculate total bill, average, highest and lowest price.
+prices = (100, 250, 150, 300, 200)
 
-lines1 = file1.readlines()
-lines2 = file2.readlines()
+total = sum(prices)
+average = total / len(prices)
 
-file1.close()
-file2.close()
+highest = prices[0]
+lowest = prices[0]
 
-same = True
+for price in prices:
+    if price > highest:
+        highest = price
 
-limit = min(len(lines1), len(lines2))
+    if price < lowest:
+        lowest = price
 
-for i in range(limit):
-    if lines1[i] != lines2[i]:
-        print("Files are different.")
-        print("First difference at line:", i + 1)
-
-        print("File 1:", lines1[i], end="")
-        print("File 2:", lines2[i], end="")
-
-        same = False
-        break
-
-if same:
-    if len(lines1) == len(lines2):
-        print("Files are identical.")
-    else:
-        print("Files are different.")
-        print("First difference at line:", limit + 1)
+print("Total bill:", total)
+print("Average price:", average)
+print("Highest price:", highest)
+print("Lowest price:", lowest)

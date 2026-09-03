@@ -1,7 +1,5 @@
-file = open("student.txt", "r")
+# Create a tuple of fruits and display each fruit using a loop.
+fruits = ("Apple", "Mango", "Banana", "Orange", "Grapes")
 
-lines = file.readlines()
-
-print("Total lines:", len(lines))
-
-file.close()
+for fruit in fruits:
+    print(fruit)

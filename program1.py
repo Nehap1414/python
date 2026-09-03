@@ -1,15 +1,5 @@
-name = input("Enter name: ")
-roll = input("Enter roll number: ")
-branch = input("Enter branch: ")
-semester = input("Enter semester: ")
+# Write a Python program to create a tuple of five integers and display it.
 
-file = open("student.txt", "w")
+numbers = (10, 20, 30, 40, 50)
 
-file.write("Name: " + name + "\n")
-file.write("Roll Number: " + roll + "\n")
-file.write("Branch: " + branch + "\n")
-file.write("Semester: " + semester + "\n")
-
-file.close()
-
-print("Student details saved successfully.")
+print("Tuple:", numbers)

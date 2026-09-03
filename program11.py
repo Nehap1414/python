@@ -1,15 +1,7 @@
-file = open("student.txt", "r")
+# Convert a tuple into a list and add a new element.
+numbers = (10, 20, 30, 40)
 
-content = file.read()
+my_list = list(numbers)
+my_list.append(50)
 
-words = content.split()
-
-longest = words[0]
-
-for word in words:
-    if len(word) > len(longest):
-        longest = word
-
-print("Longest word:", longest)
-
-file.close()
+print("Updated list:", my_list)

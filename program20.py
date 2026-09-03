@@ -1,29 +1,9 @@
-file = open("transactions.txt", "r")
+# Accept a number from the user and determine whether it exists in the tuple.
+numbers = (10, 20, 30, 40, 50)
 
-total_deposits = 0
-total_withdrawals = 0
-balance = 0
-largest = 0
+num = int(input("Enter a number: "))
 
-for line in file:
-    transaction, amount = line.strip().split(",")
-
-    amount = float(amount)
-
-    if transaction == "D":
-        total_deposits += amount
-        balance += amount
-
-    elif transaction == "W":
-        total_withdrawals += amount
-        balance -= amount
-
-    if amount > largest:
-        largest = amount
-
-file.close()
-
-print("Total Deposits:", total_deposits)
-print("Total Withdrawals:", total_withdrawals)
-print("Final Balance:", balance)
-print("Largest Transaction:", largest)
+if num in numbers:
+    print("Number exists in the tuple")
+else:
+    print("Number does not exist in the tuple")

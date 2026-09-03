@@ -1,18 +1,6 @@
-file = open("student.txt", "r")
+# Create a tuple containing three elements and repeat it four times
+numbers = (10, 20, 30)
 
-content = file.read()
+result = numbers * 4
 
-vowels = 0
-consonants = 0
-
-for ch in content:
-    if ch.isalpha():
-        if ch.lower() in "aeiou":
-            vowels += 1
-        else:
-            consonants += 1
-
-print("Vowels:", vowels)
-print("Consonants:", consonants)
-
-file.close()
+print("Repeated tuple:", result)
