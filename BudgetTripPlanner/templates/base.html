@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Budget Trip Planner{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <a href="{{ url_for('home') }}" class="brand">
+                <span class="brand-icon">✦</span>
+                <span>Trip<span class="brand-light">Wise</span>
+                    <small>BUDGET TRAVEL PLANNER</small>
+                </span>
+            </a>
+
+            <p class="nav-heading">WORKSPACE</p>
+            <nav class="nav-links">
+                <a href="{{ url_for('home') }}" class="{{ 'active' if request.endpoint == 'home' else '' }}">⌂ <span>Dashboard</span></a>
+                <a href="{{ url_for('plan_trip') }}" class="{{ 'active' if request.endpoint == 'plan_trip' else '' }}">✈ <span>Plan a Trip</span></a>
+                <a href="{{ url_for('find_hotels') }}" class="{{ 'active' if request.endpoint == 'find_hotels' else '' }}">▦ <span>Find Hotels</span></a>
+                <a href="{{ url_for('saved_trips') }}" class="{{ 'active' if request.endpoint == 'saved_trips' else '' }}">▤ <span>Saved Trips</span></a>
+            </nav>
+
+            <p class="nav-heading">PREFERENCES</p>
+            <nav class="nav-links">
+                <a href="{{ url_for('settings') }}" class="{{ 'active' if request.endpoint == 'settings' else '' }}">⚙ <span>Settings</span></a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="travel-card">
+                    <span class="travel-card-icon">✦</span>
+                    <h3>Your next adventure</h3>
+                    <p>Plan smarter. Travel farther. Spend wisely.</p>
+                    <a href="{{ url_for('plan_trip') }}">Start planning →</a>
+                </div>
+                <p class="sidebar-footer">SMART TRAVEL, SIMPLIFIED</p>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR PERSONAL TRAVEL ASSISTANT</p>
+                    <h2>{% block page_heading %}Dashboard{% endblock %}</h2>
+                </div>
+                <div class="topbar-right">
+                    <span class="online-dot"></span>
+                    <span>Planner online</span>
+                    <div class="avatar">T</div>
+                </div>
+            </header>
+
+            <section class="page-content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="flash {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </section>
+
+            <footer class="main-footer">
+                <span>TripWise · Budget Trip Planner</span>
+                <span>Travel better, spend smarter.</span>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

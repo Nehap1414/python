@@ -1,0 +1,94 @@
+
+{% extends "base.html" %}
+{% block title %}Dashboard | TripWise{% endblock %}
+{% block page_heading %}Your Travel Dashboard{% endblock %}
+
+{% block content %}
+<section class="welcome-banner">
+    <div>
+        <p class="eyebrow light">READY FOR YOUR NEXT ADVENTURE?</p>
+        <h1>Travel more.<br><span>Worry about budgets less.</span></h1>
+        <p>Plan your next getaway with a clear budget and smarter travel decisions.</p>
+        <a class="btn btn-white" href="{{ url_for('plan_trip') }}">＋ Plan a new trip</a>
+    </div>
+    <div class="banner-art">
+        <div class="sun"></div>
+        <div class="mountain mountain-back"></div>
+        <div class="mountain mountain-front"></div>
+        <div class="banner-plane">✈</div>
+    </div>
+</section>
+
+<div class="stats-grid">
+    <article class="stat-card">
+        <div class="stat-top"><span>Total saved trips</span><span class="stat-icon purple">✈</span></div>
+        <h2>{{ total_trips }}</h2>
+        <p>Your travel history</p>
+    </article>
+    <article class="stat-card">
+        <div class="stat-top"><span>Combined trip budgets</span><span class="stat-icon green">₹</span></div>
+        <h2>{{ total_budget|inr }}</h2>
+        <p>Across your saved trips</p>
+    </article>
+    <article class="stat-card">
+        <div class="stat-top"><span>Average trip budget</span><span class="stat-icon orange">↗</span></div>
+        <h2>{{ average|inr }}</h2>
+        <p>Per saved trip</p>
+    </article>
+</div>
+
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">GET STARTED</p>
+        <h2>Your next steps</h2>
+    </div>
+</div>
+
+<div class="action-grid">
+    <a class="action-card" href="{{ url_for('plan_trip') }}">
+        <div class="action-icon purple">✈</div>
+        <h3>Plan a trip</h3>
+        <p>Set your destination, dates, number of travellers, and budget.</p>
+        <span>Start planning →</span>
+    </a>
+    <a class="action-card" href="{{ url_for('find_hotels') }}">
+        <div class="action-icon green">⌂</div>
+        <h3>Find hotels</h3>
+        <p>Search accommodation options for your upcoming journey.</p>
+        <span>Explore hotels →</span>
+    </a>
+    <a class="action-card" href="{{ url_for('saved_trips') }}">
+        <div class="action-icon orange">▤</div>
+        <h3>Saved trips</h3>
+        <p>Review and manage your previously saved travel plans.</p>
+        <span>View trips →</span>
+    </a>
+</div>
+
+<div class="section-heading">
+    <div>
+        <p class="eyebrow">EXPLORE INDIA</p>
+        <h2>Popular destinations</h2>
+    </div>
+    <a class="text-link" href="{{ url_for('plan_trip') }}">Plan your journey →</a>
+</div>
+
+<div class="destination-grid">
+    {% for city in destinations %}
+    <a class="destination-card" href="{{ url_for('plan_trip', destination=city) }}">
+        <div class="destination-visual city-{{ loop.index }}">
+            <span>{{ city[0] }}</span>
+        </div>
+        <div class="destination-info">
+            <h3>{{ city }}</h3>
+            <span>Plan a trip →</span>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+<div class="notice">
+    <span>ⓘ</span>
+    <p><strong>Budget tip:</strong> Travel costs shown by this demo are estimates. Actual transport, food, hotel, and sightseeing costs may vary.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+
+{% extends "base.html" %}
+{% block title %}Saved Trips | TripWise{% endblock %}
+{% block page_heading %}Saved Trips{% endblock %}
+
+{% block content %}
+<div class="page-intro intro-with-action">
+    <div>
+        <p class="eyebrow">YOUR TRAVEL COLLECTION</p>
+        <h1>Every adventure, in one place.</h1>
+        <p>Review the trip plans you've saved.</p>
+    </div>
+
+    <a class="btn btn-primary" href="{{ url_for('plan_trip') }}">
+        ＋ New trip
+    </a>
+</div>
+
+{% if trips %}
+<div class="panel table-panel">
+    <div class="section-heading inside">
+        <div>
+            <p class="eyebrow">YOUR PLANS</p>
+            <h2>Trip history</h2>
+        </div>
+
+        <span class="estimate-badge">
+            {{ trips|length }} saved
+        </span>
+    </div>
+
+    <div class="table-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Dates</th>
+                    <th>Travellers</th>
+                    <th>Budget</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for trip in trips %}
+                <tr>
+                    <td>
+                        <a
+                            class="destination-link"
+                            href="{{ url_for(
+                                'find_hotels',
+                                destination=trip[1],
+                                travelers=trip[3],
+                                checkin=trip[5],
+                                checkout=trip[6]
+                            ) }}"
+                            title="Find sample accommodation for {{ trip[1] }}"
+                        >
+                            {{ trip[1]|title }}
+                        </a>
+
+                        <span class="table-subtext">
+                            {{ trip[4] }} night(s)
+                        </span>
+                    </td>
+
+                    <td>
+                        {{ trip[5] }}
+                        <span class="table-subtext">
+                            to {{ trip[6] }}
+                        </span>
+                    </td>
+
+                    <td>{{ trip[3] }}</td>
+
+                    <td>
+                        <strong>{{ trip[2]|inr }}</strong>
+                    </td>
+
+                    <td>
+                        <form
+                            method="POST"
+                            action="{{ url_for(
+                                'delete_trip_route',
+                                trip_id=trip[0]
+                            ) }}"
+                            onsubmit="return confirm('Are you sure you want to delete this saved trip?');"
+                        >
+                            <button
+                                class="delete-btn"
+                                type="submit"
+                                aria-label="Delete saved trip"
+                            >
+                                Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% else %}
+<div class="empty-state panel">
+    <div class="empty-icon">▤</div>
+
+    <h2>Your travel list is waiting</h2>
+
+    <p>
+        You haven't saved a trip yet. Create a plan and save it here
+        for easy access.
+    </p>
+
+    <a class="btn btn-primary" href="{{ url_for('plan_trip') }}">
+        Plan your first trip →
+    </a>
+</div>
+{% endif %}
+
+{% endblock %}

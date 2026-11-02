@@ -1,0 +1,58 @@
+
+{% extends "base.html" %}
+{% block title %}Settings | TripWise{% endblock %}
+{% block page_heading %}Settings{% endblock %}
+
+{% block content %}
+<div class="page-intro">
+    <p class="eyebrow">MAKE IT YOURS</p>
+    <h1>Application settings.</h1>
+    <p>Review the configuration and information about your planner.</p>
+</div>
+
+<div class="settings-grid">
+    <section class="panel settings-panel">
+        <div class="settings-heading">
+            <span class="settings-icon purple">⚙</span>
+            <div><h2>General</h2><p class="muted">Your planner preferences</p></div>
+        </div>
+        <div class="setting-row">
+            <div><strong>Currency</strong><p>Indian Rupee (INR)</p></div>
+            <span class="setting-value">₹ INR</span>
+        </div>
+        <div class="setting-row">
+            <div><strong>Destination coverage</strong><p>Supported Indian destinations</p></div>
+            <span class="setting-value">6 cities</span>
+        </div>
+        <div class="setting-row">
+            <div><strong>Storage</strong><p>Saved trips are stored in SQLite.</p></div>
+            <span class="setting-value">SQLite</span>
+        </div>
+    </section>
+
+    <section class="panel settings-panel">
+        <div class="settings-heading">
+            <span class="settings-icon green">ⓘ</span>
+            <div><h2>About TripWise</h2><p class="muted">Project information</p></div>
+        </div>
+        <p class="settings-description">TripWise is a budget trip planning application that helps users estimate travel expenses, explore accommodation options, and save travel plans.</p>
+        <div class="setting-row">
+            <div><strong>Budget calculations</strong><p>Illustrative estimates, not guaranteed rates</p></div>
+            <span class="status-pill">Estimates</span>
+        </div>
+        <div class="setting-row">
+            <div><strong>Hotel search</strong><p>Depends on the configured API</p></div>
+            <span class="status-pill">API-based</span>
+        </div>
+        <div class="setting-row">
+            <div><strong>Trip history</strong><p>Stored in the local database file</p></div>
+            <span class="status-pill">Enabled</span>
+        </div>
+    </section>
+</div>
+
+<div class="notice">
+    <span>ⓘ</span>
+    <p>This demonstration does not guarantee live hotel prices. Verify all costs and availability with the relevant provider before making a booking.</p>
+</div>
+{% endblock %}

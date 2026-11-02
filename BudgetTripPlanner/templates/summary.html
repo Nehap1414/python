@@ -1,0 +1,136 @@
+
+{% extends "base.html" %}
+
+{% block title %}Trip Summary | TripWise{% endblock %}
+{% block page_heading %}Your Trip Summary{% endblock %}
+
+{% block content %}
+
+<div class="page-intro">
+    <p class="eyebrow">YOUR PERSONAL TRAVEL PLAN</p>
+    <h1>{{ destination }} is calling.</h1>
+    <p>Here is your estimated budget for the trip.</p>
+</div>
+
+<section class="summary-hero">
+    <div>
+        <p class="eyebrow light">YOUR TOTAL BUDGET</p>
+        <h1>{{ budget|inr }}</h1>
+        <p>
+            Estimated budget for {{ travelers }} traveller(s)
+            over {{ nights }} night(s).
+        </p>
+    </div>
+    <div class="summary-stamp">TRIP<br>PLANNED</div>
+</section>
+
+<div class="stats-grid summary-stats">
+    <article class="stat-card">
+        <span class="muted">Destination</span>
+        <h2>{{ destination }}</h2>
+        <p>Your chosen getaway</p>
+    </article>
+
+    <article class="stat-card">
+        <span class="muted">Check-in</span>
+        <h2>{{ checkin }}</h2>
+        <p>Arrival date</p>
+    </article>
+
+    <article class="stat-card">
+        <span class="muted">Check-out</span>
+        <h2>{{ checkout }}</h2>
+        <p>Departure date</p>
+    </article>
+</div>
+
+<section class="panel">
+    <div class="section-heading inside">
+        <div>
+            <p class="eyebrow">COST BREAKDOWN</p>
+            <h2>Where your money goes</h2>
+        </div>
+        <span class="estimate-badge">Estimated costs</span>
+    </div>
+
+    <div class="budget-list">
+        {% for item in breakdown %}
+        <div class="budget-row">
+            <div class="budget-label">
+                <span class="budget-dot dot-{{ loop.index }}"></span>
+                <strong>{{ item.label }}</strong>
+            </div>
+            <strong>{{ item.amount|inr }}</strong>
+        </div>
+
+        <div class="budget-track">
+            <span
+                class="track-{{ loop.index }}"
+                style="width: {{ ((item.amount / budget * 100) if budget else 0)|round(2) }}%">
+            </span>
+        </div>
+        {% endfor %}
+
+        <div class="budget-row total-row">
+            <strong>Estimated total</strong>
+            <strong>{{ estimated_total|inr }}</strong>
+        </div>
+
+        <div class="budget-row">
+            <span>Remaining budget</span>
+            <strong>{{ remaining|inr }}</strong>
+        </div>
+    </div>
+
+    <p class="muted small">
+        These calculations use illustrative estimates, not live market prices.
+        Actual travel and accommodation costs may vary.
+    </p>
+</section>
+
+<div class="button-row">
+
+    
+    <a
+        class="btn btn-primary"
+        href="{{ url_for(
+            'find_hotels',
+            destination=destination,
+            checkin=checkin,
+            checkout=checkout,
+            travelers=travelers,
+            budget=hotel_budget,
+            search=1
+        ) }}">
+        Find hotels →
+    </a>
+
+    
+    <form
+        method="POST"
+        action="{{ url_for('save_trip_route') }}">
+
+        <input type="hidden" name="destination" value="{{ destination }}">
+        <input type="hidden" name="budget" value="{{ budget }}">
+        <input type="hidden" name="travelers" value="{{ travelers }}">
+        <input type="hidden" name="nights" value="{{ nights }}">
+        <input type="hidden" name="checkin" value="{{ checkin }}">
+        <input type="hidden" name="checkout" value="{{ checkout }}">
+
+        <input
+            type="hidden"
+            name="hotel_per_night"
+            value="{{ hotel_budget / nights }}">
+
+        <button class="btn btn-secondary" type="submit">
+            ♡ Save this trip
+        </button>
+    </form>
+
+    <a class="btn btn-outline" href="{{ url_for('plan_trip') }}">
+        Plan another
+    </a>
+
+</div>
+
+{% endblock %}

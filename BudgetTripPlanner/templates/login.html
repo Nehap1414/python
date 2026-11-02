@@ -1,0 +1,129 @@
+
+{% extends "base.html" %}
+{% block title %}Login | TripWise{% endblock %}
+{% block page_heading %}Welcome to TripWise{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+
+<div class="auth-page">
+
+    <div class="auth-heading">
+        <p class="auth-eyebrow">TRAVEL SMARTER</p>
+        <h1>Your next adventure starts here.</h1>
+        <p>Sign in or create an account to manage your trips.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="auth-messages">
+                {% for category, message in messages %}
+                    <div class="auth-message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="auth-grid">
+
+        <!-- LOGIN SECTION -->
+        <section class="auth-card">
+            <h2>Login</h2>
+            <p class="auth-subtitle">
+                Already have an account? Sign in.
+            </p>
+
+            <form method="POST" action="{{ url_for('login') }}">
+
+                <label for="login-email">Email address</label>
+                <input
+                    id="login-email"
+                    type="email"
+                    name="email"
+                    placeholder="name@example.com"
+                    maxlength="254"
+                    autocomplete="email"
+                    required
+                >
+
+                <label for="login-password">Password</label>
+                <input
+                    id="login-password"
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <button type="submit">Login to TripWise</button>
+
+            </form>
+        </section>
+
+
+        <!-- REGISTRATION SECTION -->
+        <section class="auth-card">
+            <h2>Create Account</h2>
+            <p class="auth-subtitle">
+                New to TripWise? Register here.
+            </p>
+
+            <form method="POST" action="{{ url_for('register') }}">
+
+                <!-- NAME VALIDATION -->
+                <label for="register-name">Full name</label>
+                <input
+                    id="register-name"
+                    type="text"
+                    name="name"
+                    placeholder="Your name"
+                    minlength="2"
+                    maxlength="80"
+                    pattern="[A-Za-z]+([ '-][A-Za-z]+)*"
+                    title="Only letters, spaces, hyphens and apostrophes are allowed."
+                    autocomplete="name"
+                    required
+                >
+
+                <!-- EMAIL VALIDATION -->
+                <label for="register-email">Email address</label>
+                <input
+                    id="register-email"
+                    type="email"
+                    name="email"
+                    placeholder="name@example.com"
+                    maxlength="254"
+                    autocomplete="email"
+                    required
+                >
+
+                <!-- PASSWORD VALIDATION -->
+                <label for="register-password">Password</label>
+                <input
+                    id="register-password"
+                    type="password"
+                    name="password"
+                    placeholder="At least 8 characters"
+                    minlength="8"
+                    pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+                    title="Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special symbol."
+                    autocomplete="new-password"
+                    required
+                >
+
+                <small>
+                    Use at least 8 characters, including uppercase,
+                    lowercase, a number and a special symbol.
+                </small>
+
+                <button type="submit">Create Account</button>
+
+            </form>
+        </section>
+
+    </div>
+</div>
+{% endblock %}

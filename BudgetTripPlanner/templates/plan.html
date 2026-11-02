@@ -1,0 +1,142 @@
+
+{% extends "base.html" %}
+{% block title %}Plan a Trip | TripWise{% endblock %}
+{% block page_heading %}Plan Your Trip{% endblock %}
+
+{% block content %}
+<div class="page-intro">
+    <p class="eyebrow">YOUR NEXT ADVENTURE STARTS HERE</p>
+    <h1>Build your perfect getaway.</h1>
+    <p>Enter your travel details to create a personalised budget estimate.</p>
+</div>
+
+<div class="form-layout">
+    <form class="panel form-panel" method="POST"
+          action="{{ url_for('plan_trip') }}">
+
+        <h2>Trip details</h2>
+        <p class="muted">Tell us a little about your journey.</p>
+
+        <!-- Destination: fixed list of supported cities -->
+        <div class="form-group">
+            <label for="destination">Choose Destination</label>
+
+            <select id="destination" name="destination" required>
+                <option value="">Select a city</option>
+                {% for city in destinations %}
+                    <option value="{{ city }}"
+                        {% if request.form.get('destination', '') == city %}selected{% endif %}>
+                        {{ city }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <small class="muted">
+                Choose one of the 10 available destinations.
+            </small>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="checkin">Check-in date</label>
+                <input
+                    id="checkin"
+                    type="date"
+                    name="checkin"
+                    min="{{ today }}"
+                    value="{{ request.form.get('checkin', '') }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="nights">Number of nights</label>
+                <input
+                    id="nights"
+                    type="number"
+                    name="nights"
+                    min="1"
+                    max="30"
+                    step="1"
+                    value="{{ request.form.get('nights', '2') }}"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="travelers">Travellers</label>
+                <input
+                    id="travelers"
+                    type="number"
+                    name="travelers"
+                    min="1"
+                    max="20"
+                    step="1"
+                    value="{{ request.form.get('travelers', '2') }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="budget">Total budget (₹)</label>
+                <input
+                    id="budget"
+                    type="number"
+                    name="budget"
+                    min="1"
+                    step="1"
+                    placeholder="e.g. 15000"
+                    value="{{ request.form.get('budget', '') }}"
+                    required
+                >
+            </div>
+        </div>
+
+        <button class="btn btn-primary btn-full" type="submit">
+            Calculate my trip budget →
+        </button>
+
+        <p class="form-footnote">
+            Budget calculations use illustrative estimates, not guaranteed prices.
+        </p>
+    </form>
+
+    <aside class="panel tips-panel">
+        <div class="tips-icon">✦</div>
+        <h2>Plan smarter</h2>
+        <p class="muted">
+            A little preparation can help you make the most of your budget.
+        </p>
+
+        <div class="tip-item">
+            <span>01</span>
+            <div>
+                <strong>Set a realistic budget</strong>
+                <p>Include travel, food, hotels, and activities.</p>
+            </div>
+        </div>
+
+        <div class="tip-item">
+            <span>02</span>
+            <div>
+                <strong>Keep a safety buffer</strong>
+                <p>Reserve money for unexpected expenses.</p>
+            </div>
+        </div>
+
+        <div class="tip-item">
+            <span>03</span>
+            <div>
+                <strong>Compare accommodation</strong>
+                <p>Check the total cost for your complete stay.</p>
+            </div>
+        </div>
+
+        <div class="estimate-note">
+            All budget breakdowns are estimates and can differ from actual prices.
+        </div>
+    </aside>
+</div>
+{% endblock %}

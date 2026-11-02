@@ -1,0 +1,460 @@
+
+{% extends "base.html" %}
+
+{% block title %}Find Hotels | TripWise{% endblock %}
+
+{% block content %}
+<section class="hotel-results-page">
+
+    <div class="hotel-results-heading">
+        <h1>Find Your Stay</h1>
+        <p>Explore accommodation options for your next trip.</p>
+    </div>
+
+    <div class="demo-mode-notice">
+        <strong>Demo Mode — Sample Listings</strong>
+        <p>
+            Hotel names, ratings, reviews and prices shown below are fictional
+            sample data. They are not verified real properties, live prices
+            or confirmed availability. Use the booking-site buttons to search
+            for actual accommodation in your destination.
+        </p>
+    </div>
+
+    <form method="GET"
+          action="{{ url_for('find_hotels') }}"
+          class="hotel-search-form">
+
+        <div class="form-group">
+            <label for="destination">Choose Destination</label>
+            <select name="destination" id="destination" required>
+                <option value="">Select a city</option>
+                {% for city in destinations %}
+                    <option value="{{ city }}"
+                        {% if destination|lower == city|lower %}selected{% endif %}>
+                        {{ city }}
+                    </option>
+                {% endfor %}
+            </select>
+            <small class="muted">
+                Choose one of the 10 available destinations.
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="checkin">Check-in</label>
+            <input type="date" id="checkin" name="checkin"
+                   value="{{ checkin }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="checkout">Check-out</label>
+            <input type="date" id="checkout" name="checkout"
+                   value="{{ checkout }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="guests">Guests</label>
+            <input type="number" id="guests" name="guests"
+                   min="1" max="20" value="{{ guests }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="budget">Maximum budget per night (₹)</label>
+            <input type="number" id="budget" name="budget"
+                   min="1" value="{{ budget }}" required>
+        </div>
+
+        <button type="submit" class="hotel-search-button">
+            Search Sample Listings
+        </button>
+    </form>
+
+    {% if searched %}
+        <div class="results-summary">
+            <h2>Sample stays in {{ destination }}</h2>
+            <p>
+                {{ hotels|length }} sample listing(s) within your selected
+                nightly budget.
+            </p>
+        </div>
+    {% endif %}
+
+    {% if hotels %}
+        <div class="hotel-results-grid">
+
+            {% for hotel in hotels %}
+
+                {% set booking_url =
+                    'https://www.booking.com/searchresults.html?ss='
+                    ~ (destination|urlencode)
+                    ~ '&checkin=' ~ (checkin|urlencode)
+                    ~ '&checkout=' ~ (checkout|urlencode)
+                    ~ '&group_adults=' ~ guests
+                    ~ '&no_rooms=1&group_children=0'
+                %}
+
+                {% set agoda_url =
+                    'https://www.agoda.com/search?textToSearch='
+                    ~ (destination|urlencode)
+                    ~ '&checkIn=' ~ (checkin|urlencode)
+                    ~ '&checkOut=' ~ (checkout|urlencode)
+                    ~ '&adults=' ~ guests
+                    ~ '&rooms=1'
+                %}
+
+                <article class="hotel-card">
+
+                    <div class="hotel-card-banner">
+                        <div class="hotel-placeholder-icon">⌂</div>
+                        <span>{{ destination }} STAY</span>
+                    </div>
+
+                    <div class="hotel-card-body">
+
+                        <span class="demo-badge">DEMO LISTING</span>
+
+                        <h3>
+                            {{ hotel.get('name', 'Sample Accommodation') }}
+                        </h3>
+
+                        <p class="hotel-location">
+                            {{ hotel.get('location', destination) }}
+                        </p>
+
+                        <div class="hotel-price">
+                            ₹{{ "{:,.0f}".format(
+                                hotel.get('price', 0)|float
+                            ) }}
+                            <span>/ night (sample estimate)</span>
+                        </div>
+
+                        <p class="hotel-rating">
+                            <strong>
+                                ★ {{ hotel.get('rating', 'N/A') }}
+                            </strong>
+
+                            {% if hotel.get('reviews') is not none %}
+                                <span>
+                                    ({{ hotel.get('reviews') }} sample reviews)
+                                </span>
+                            {% endif %}
+                        </p>
+
+                        <p class="sample-warning">
+                            This is fictional sample data, not a verified
+                            hotel offer. The displayed price and rating are
+                            illustrative and may not match booking-site results.
+                        </p>
+
+                        <div class="booking-buttons">
+
+                            <a class="booking-button booking-com"
+                               href="{{ booking_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                Search on Booking.com ↗
+                            </a>
+
+                            <a class="booking-button agoda"
+                               href="{{ agoda_url }}"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                Search on Agoda ↗
+                            </a>
+
+                        </div>
+
+                        <p class="booking-note">
+                            These buttons search for accommodation in
+                            {{ destination }}. They do not book the sample
+                            listing. Check actual prices and availability
+                            on the booking website.
+                        </p>
+
+                    </div>
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% elif searched %}
+        <div class="hotel-empty-state">
+            <h3>No sample listings found</h3>
+            <p>
+                Try increasing your maximum nightly budget or choosing
+                another destination.
+            </p>
+        </div>
+    {% endif %}
+
+</section>
+
+<style>
+.hotel-results-page {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 24px;
+    color: #191936;
+}
+
+.hotel-results-heading h1 {
+    margin-bottom: 8px;
+}
+
+.hotel-results-heading p,
+.hotel-location,
+.booking-note {
+    color: #777895;
+}
+
+.demo-mode-notice {
+    margin: 20px 0;
+    padding: 18px;
+    border: 1px solid #e1d8ff;
+    border-radius: 14px;
+    background: #f4f0ff;
+    color: #44377a;
+}
+
+.demo-mode-notice p {
+    margin: 8px 0 0;
+    line-height: 1.6;
+}
+
+.hotel-search-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+    padding: 20px;
+    margin-bottom: 28px;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(35, 29, 75, 0.07);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px;
+    border: 1px solid #deddec;
+    border-radius: 8px;
+    background: #fff;
+    color: #252344;
+}
+
+.hotel-search-button {
+    align-self: end;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 9px;
+    background: #7157df;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.hotel-search-button:hover {
+    background: #5c43c7;
+}
+
+.results-summary {
+    margin: 24px 0;
+}
+
+.results-summary p {
+    color: #777895;
+}
+
+.hotel-results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.hotel-card {
+    overflow: hidden;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 10px 32px rgba(34, 29, 73, 0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hotel-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(34, 29, 73, 0.12);
+}
+
+.hotel-card-banner {
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #e4ddff, #c2b2f7);
+    color: #6653dc;
+}
+
+.hotel-card:nth-child(4n + 2) .hotel-card-banner {
+    background: linear-gradient(135deg, #d8f6ec, #a5e1d0);
+}
+
+.hotel-card:nth-child(4n + 3) .hotel-card-banner {
+    background: linear-gradient(135deg, #ffe5ce, #ffc28f);
+}
+
+.hotel-card:nth-child(4n + 4) .hotel-card-banner {
+    background: linear-gradient(135deg, #f4dff4, #dbb0e0);
+}
+
+.hotel-placeholder-icon {
+    font-size: 36px;
+    line-height: 1;
+}
+
+.hotel-card-banner span {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+.hotel-card-body {
+    padding: 22px;
+}
+
+.demo-badge {
+    display: inline-block;
+    padding: 5px 9px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    background: #f1ecff;
+    color: #6046c7;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.hotel-card-body h3 {
+    margin: 4px 0 12px;
+    font-size: 18px;
+}
+
+.hotel-location {
+    font-size: 13px;
+}
+
+.hotel-price {
+    margin: 20px 0 12px;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.hotel-price span {
+    font-size: 12px;
+    font-weight: 400;
+    color: #777895;
+}
+
+.hotel-rating {
+    color: #c48729;
+    font-size: 13px;
+}
+
+.hotel-rating span {
+    color: #777895;
+}
+
+.sample-warning {
+    color: #777895;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.booking-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.booking-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 180px;
+    min-height: 44px;
+    padding: 11px 14px;
+    border-radius: 9px;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    transition: transform 0.2s, opacity 0.2s;
+}
+
+.booking-button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.booking-com {
+    background: #174a9c;
+}
+
+.agoda {
+    background: #d93648;
+}
+
+.booking-note {
+    margin-top: 12px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.hotel-empty-state {
+    padding: 36px 20px;
+    border-radius: 14px;
+    background: #fff;
+    text-align: center;
+}
+
+@media (max-width: 760px) {
+    .hotel-results-page {
+        padding: 14px;
+    }
+
+    .hotel-results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hotel-search-form {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-buttons {
+        flex-direction: column;
+    }
+
+    .booking-button {
+        width: 100%;
+    }
+}
+</style>
+{% endblock %}
